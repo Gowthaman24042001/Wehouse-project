@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        .countdown {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+        }
+
+        .countdown-column {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="countdown">
+    <div class="countdown-column" id="hours">00</div>
+    <div class="countdown-column" id="minutes">00</div>
+    <div class="countdown-column" id="seconds">00</div>
+</div>
+
+<script>
+    // Set the countdown date for Indian time (replace with your desired end date and time)
+    const countdownDate = new Date("2024-01-31T00:00:00+05:30");
+
+    // Update the countdown every second
+    const countdownInterval = setInterval(updateCountdown, 1000);
+
+    function updateCountdown() {
+        // Get the current date and time in Indian time zone
+        const now = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
+        const nowDate = new Date(now).getTime();
+
+        // Calculate the remaining time
+        const timeDifference = countdownDate - nowDate;
+
+        // Calculate hours, minutes, and seconds
+        const hours = Math.floor(timeDifference / (1000 * 60 * 60) % 24);
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+        // Display the countdown in the HTML
+        document.getElementById("hours").textContent = formatTime(hours);
+        document.getElementById("minutes").textContent = formatTime(minutes);
+        document.getElementById("seconds").textContent = formatTime(seconds);
+
+        // If the countdown is over, clear the interval
+        if (timeDifference <= 0) {
+            clearInterval(countdownInterval);
+            // You can add additional actions here when the countdown reaches zero
+        }
+    }
+
+    // Helper function to format time with leading zeros
+    function formatTime(time) {
+        return time < 10 ? `0${time}` : `${time}`;
+    }
+
+    // Initial update when the page loads
+    updateCountdown();
+</script>
+
+</body>
+</html>
